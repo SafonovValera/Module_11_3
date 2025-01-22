@@ -1,0 +1,53 @@
+# Цель задания:
+# Закрепить знания об интроспекции в Python.
+# Создать персональную функции для подробной интроспекции объекта.
+
+import inspect
+from pprint import pprint
+
+
+
+class My_class():
+        pass
+
+# Задание:
+# Необходимо создать функцию, которая принимает объект (любого типа) в качестве аргумента и проводит интроспекцию этого
+# объекта, чтобы определить его тип, атрибуты, методы, модуль, и другие свойства.
+# 1. Создайте функцию introspection_info(obj), которая принимает объект obj.
+
+def introspection_info(obj, **kwargs):
+
+# 2. Используйте встроенные функции и методы интроспекции Python для получения информации о переданном объекте.
+
+    print(f'\n Объект: {obj}\n Тип объекта: {type(obj)} \n Принадлежность объекта: {inspect.getmodule(obj)} \n'
+          f'Атрибуты и методы объекта:')
+    info_dict = {}
+    info_dict['attributes'] = dir(obj)
+    met_list = []
+    print('| Имя', 16 * ' ', '| Тип', 33 * ' ', '| Исполняемый')
+    for attr_name in dir(obj):
+        attr = getattr(obj, attr_name)
+        print(f'| {attr_name:<21}| {str(type(attr)):<38}| {callable(attr)}')
+        if callable(attr):
+            met_list.append(attr_name)
+    info_dict['methods'] = met_list
+
+# 3. Верните словарь или строки с данными об объекте, включающий следующую информацию:
+#   - Тип объекта.
+#   - Атрибуты объекта.
+#   - Методы объекта.
+#   - Модуль, к которому объект принадлежит.
+#   - Другие интересные свойства объекта, учитывая его тип (по желанию).
+# Пример работы:
+
+number_info = introspection_info(40)
+print(number_info)
+number_info = introspection_info(My_class)
+print(number_info)
+number_info = introspection_info(introspection_info)
+print(number_info)
+
+# Вывод на консоль:
+# {'type': 'int', 'attributes': [...], 'methods': ['__abs__', '__add__', ...], 'module': '__main__'}
+# Рекомендуется создавать свой класс и объект для лучшего понимания
+# Файл с кодом прикрепите к домашнему заданию.
